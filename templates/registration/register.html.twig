@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+            <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/front/img/logo-icon.png')}}">
+
+
+  <title>e-Tech Store | Register</title>
+   <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{{asset('assets/back/css/sb-admin-2.min.css')}}" rel="stylesheet">
+
+</head>
+
+<body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+        {% block body %}
+            <h1>Register</h1>
+
+            {{ form_errors(registrationForm) }}
+
+            {{ form_start(registrationForm,{attr: {'novalidate': 'novalidate'}}) }}
+     
+ <br>     
+ <div class="card-body">
+ <label  class="form-label">  
+  {{ form_label(registrationForm.firstname, 'First Name: ', {'label_attr': {'class': 'form-control-user'}}) }}
+  </label>
+{{ form_widget(registrationForm.firstname) }}
+ {{ form_errors(registrationForm.firstname) }}  
+ <br>
+                                <label  class="form-label"> 
+                                    {{ form_label(registrationForm.lastname, 'Last Name: ', {'label_attr': {'class': 'form-control-user'}}) }}
+                                </label>                                    
+                                     {{ form_widget(registrationForm.lastname) }}
+                                     <span class="alert-danger">
+
+                                     {{ form_errors(registrationForm.lastname) }}    
+                                     </span>
+                                     <br>  
+                                 <label  class="form-label"> 
+                                    {{ form_label(registrationForm.username, 'User name:', {'label_attr': {'class': 'form-control-user'}}) }}
+                                </label>
+                                     {{ form_widget(registrationForm.username) }}
+                                     <span class="alert-danger">
+
+                                     {{ form_errors(registrationForm.username) }}
+                                     </span>
+                                     <br>
+                                <label  class="form-label"> 
+                                     {{ form_label(registrationForm.phone, 'Phone: ', {'label_attr': {'class': 'form-control-user'}}) }}
+                                </label>
+                                     {{ form_widget(registrationForm.phone) }}
+                                    
+                                    <span class="alert-danger">
+
+                                      {{ form_errors(registrationForm.phone) }}  
+                                     </span>
+                                <br>
+                                <label  class="form-label"> 
+                                     {{ form_label(registrationForm.address, 'Adress: ', {'label_attr': {'class': 'form-control-user'}}) }}
+                                </label>
+                                     {{ form_widget(registrationForm.address) }}
+                                    <span class="alert-danger">
+
+                                     {{ form_errors(registrationForm.address) }}                                            
+                                     </span>
+                                    <br>
+                                    <label  class="form-label">
+                                   {{ form_label(registrationForm.email, 'Email Adress', {'label_attr': {'class': 'form-control-user'}}) }}
+                                      </label>
+                                     {{ form_widget(registrationForm.email) }}
+                                    
+                                    <span class="alert-danger">
+
+                                      {{ form_errors(registrationForm.email) }}
+                                     </span>
+                                  <br>
+                                <label  class="form-label"> 
+                                     {{ form_label(registrationForm.plainPassword, 'Password: ', {'label_attr': {'class': 'form-control-user'}}) }}
+                                </label>
+                                
+                                     {{ form_widget(registrationForm.plainPassword) }}
+                                     <span class="alert-danger">
+
+                                     {{ form_errors(registrationForm.plainPassword) }}  
+                                     </span>                                          
+                                    <br>                                   
+                                <label  class="form-label"> 
+                                     {{ form_label(registrationForm.image, 'Image: ', {'label_attr': {'class': 'form-control-user'}}) }}
+                                </label>
+                                     {{ form_widget(registrationForm.image) }}
+                                     <span class="alert-danger">
+
+                                     {{ form_errors(registrationForm.image) }}                                            
+                                     </span>
+                                    <br>                                 
+                                     {{ form_row(registrationForm.agreeTerms) }}
+ </div>
+                                     
+
+        <button type="submit" class="btn btn-primary btn-user btn-block">Register</button>
+        <hr>
+        <a href="index.html" class="btn btn-facebook btn-user btn-block">
+                                    <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
+                                </a>
+                                <hr>
+                                <div class="text-center">
+                                <a class="small" href="forgot-password.html">Forgot Password?</a>
+                            </div>
+                                <div class="text-center">
+                                <a class="small" href="{{path('app_login')}}">Already have an account? Login!</a>
+                            </div>
+         {{ form_end(registrationForm) }}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+{% endblock %}
+</body>
+
+</html>
+
+
+
