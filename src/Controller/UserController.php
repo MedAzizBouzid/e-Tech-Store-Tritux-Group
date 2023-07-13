@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Form\UpdatePasswordType;
 use App\Form\UserEditType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -102,7 +103,32 @@ class UserController extends AbstractController
             'form' => $form,
         ]);
     }
+    #[Route('user/editPassword/{id}', name: 'app_user_edit_password', methods: ['GET', 'POST'])]
+    public function editPassword(Request $request, User $user, UserRepository $userRepository, SluggerInterface $slugger, UserPasswordHasherInterface $hasher): Response
+    {
+        $form = $this->createForm(UpdatePasswordType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($hasher->isPasswordValid($user, $form->get('plainPassword')->getData())) {
+                //$user->setPassword($form->get('newPassword')->getData());
+                $user->setPassword(
+                    $hasher->hashPassword(
+                        $user,
+                        $form->get('newPassword')->getData()
+                    )
+                );
+                $userRepository->save($user, true);
+                return $this->redirectToRoute('app_front');
+            } else
+                $this->addFlash('warning', 'Your password is incorrect');
+        }
 
+
+        return $this->render('front/user/editPassword.html.twig', [
+            'form' => $form->createView()
+
+        ]);
+    }
     //---------Delete Profile BackOffice
     #[Route('user/delete/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, UserRepository $userRepository): Response
