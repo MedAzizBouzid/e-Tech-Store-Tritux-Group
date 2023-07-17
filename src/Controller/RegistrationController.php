@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Repository\UserRepository;
 use App\Security\UserAuthenticator;
+use App\Service\JwtService;
+use App\Service\SendMailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,9 +23,16 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator
-    , UserAuthenticator $authenticator, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
-    {
+    public function register(
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        UserAuthenticatorInterface $userAuthenticator,
+        UserAuthenticator $authenticator,
+        EntityManagerInterface $entityManager,
+        SluggerInterface $slugger,
+        sendMailService $mail,
+        JwtService $jwt
+    ): Response {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -61,9 +71,27 @@ class RegistrationController extends AbstractController
             }
 
             $entityManager->persist($user);
-            $entityManager->flush();
+             $entityManager->flush();
+
+            $header =[
+                'typ'=>'JWT',
+                'alg'=>'HS256'
+            ];
+            $payload =[
+                'user_id'=>$user->getId()
+            ];
+            $token = $jwt->generate($header,$payload,$this->getParameter('app.jwtsecret'));
+
             // do anything else you need here, like send an email
 
+            $mail->send(
+                'no-reply@monsite.net',
+                $user->getEmail(),
+                'Activation de votre Compte E-tech store',
+                'register',
+                compact('user','token')
+
+            );
             return $userAuthenticator->authenticateUser(
                 $user,
                 $authenticator,
@@ -74,5 +102,26 @@ class RegistrationController extends AbstractController
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
+    }
+    #[Route('/verify/{token}', name: 'app_verify_email')]
+    public function verifyUser($token,JWTService $jwt,UserRepository $userRepository, EntityManagerInterface $em): Response
+    {   
+      // dd($jwt->check($token,$this->getParameter('app.jwtsecret')));
+      //  dd($jwt->isExpired($token));
+       if( $jwt->isValid($token)&& !$jwt->isExpired($token)&& $jwt->check($token,$this->getParameter('app.jwtsecret'))){
+        $payload=$jwt->getPayload($token);
+        $user=$userRepository->find($payload['user_id']);
+        if($user && !$user->getIsVerified()){
+            $user->setIsVerified(true);
+            $em->flush($user);
+            // $this->sendSmsAction();
+            $this->addFlash('success', 'Your email address has been verified.');
+            return $this->redirectToRoute('app_front');
+
+        }
+       }
+       $this->addFlash('danger','token invalid');
+
+        return $this->redirectToRoute('app_front');
     }
 }
