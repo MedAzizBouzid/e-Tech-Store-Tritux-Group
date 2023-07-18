@@ -37,6 +37,7 @@ security:
     - { path: ^/user/editProfile/[0-9]+$, roles: ROLE_USER }
     - { path: ^/user/[0-9]+$, roles:  ROLE_ADMIN }
     - { path: ^/user, roles:  ROLE_USER }
+    - { path: ^/renvoiMailVerif, roles:  ROLE_USER }
 
 
   role_hierarchy:
