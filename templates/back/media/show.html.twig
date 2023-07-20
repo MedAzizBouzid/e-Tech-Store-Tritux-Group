@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<title>Media</title>
+
+{% block body %}
+    <h1>Media</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ medium.id }}</td>
+            </tr>
+            <tr>
+                <th>Path</th>
+                <td>{{ medium.path }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_media_index') }}">back to list</a>
+
+    <a href="{{ path('app_media_edit', {'id': medium.id}) }}">edit</a>
+
+    {{ include('back/media/_delete_form.html.twig') }}
+{% endblock %}

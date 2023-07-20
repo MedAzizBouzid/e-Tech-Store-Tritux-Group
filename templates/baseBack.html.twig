@@ -104,23 +104,34 @@
 
                 <!-- Nav Item - Pages Collapse Menu -->
                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                  {% if app.user.roles[0]=="ROLE_SUPER_ADMIN" %}
+                    <a class="nav-link collapsed" href="{{path('app_user_index')}}" 
                         aria-expanded="true" aria-controls="collapsePages">
                         <i class="fas fa-fw fa-folder"></i>
-                        <span>Tables</span>
+                        <span>Users</span>
                     </a>
-                    <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                        {% if app.user.roles[0]=="ROLE_SUPER_ADMIN" %}
-                            
-                             <a class="collapse-item" href="{{path('app_user_index')}}">Users</a>
-                        {% endif %}
-                            <a class="collapse-item" href="login.html">Shops</a>
-                            <a class="collapse-item" href="register.html">Products</a>
-                           
-                            
-                        </div>
-                    </div>
+                    {% endif %}
+                     <a class="nav-link collapsed" href="{{path('app_product_index')}}" 
+                        aria-expanded="true" aria-controls="collapsePages">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>Products</span>
+                    </a>
+                    <a class="nav-link collapsed" href="{{path('app_media_index')}}" 
+                        aria-expanded="true" aria-controls="collapsePages">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>Media</span>
+                    </a>
+                    <a class="nav-link collapsed" href="{{path('app_category_index')}}" 
+                        aria-expanded="true" aria-controls="collapsePages">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>Categories</span>
+                    </a>
+                    <a class="nav-link collapsed" href="#" 
+                        aria-expanded="true" aria-controls="collapsePages">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>Shops</span>
+                    </a>
+                   
                 </li>
 
                 <!-- Nav Item - Charts -->
