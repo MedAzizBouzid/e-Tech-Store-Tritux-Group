@@ -38,7 +38,11 @@ security:
     - { path: ^/user/[0-9]+$, roles:  ROLE_ADMIN }
     - { path: ^/user, roles:  ROLE_USER }
     - { path: ^/renvoiMailVerif, roles:  ROLE_USER }
-    - { path: ^/reset_pwd, roles:  ROLE_USER }
+    - { path: ^/category, roles:  ROLE_ADMIN } 
+    - { path: ^/product, roles:  ROLE_ADMIN }
+    - { path: ^/media, roles:  ROLE_ADMIN } 
+ 
+
 
   role_hierarchy:
     ROLE_ADMIN: ROLE_USER

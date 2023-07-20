@@ -21,10 +21,10 @@ class Category
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
+    #[ORM\Column( nullable:true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable:true)]
     private ?\DateTimeImmutable $disabledAt = null;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Product::class)]
@@ -69,11 +69,9 @@ class Category
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt)
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
     }
 
     public function getDisabledAt(): ?\DateTimeImmutable
@@ -81,12 +79,13 @@ class Category
         return $this->disabledAt;
     }
 
-    public function setDisabledAt(\DateTimeImmutable $disabledAt): static
+    public function setDisabledAt(?\DateTimeImmutable $disabledAt)
     {
         $this->disabledAt = $disabledAt;
 
         return $this;
     }
+    
 
     /**
      * @return Collection<int, Product>
