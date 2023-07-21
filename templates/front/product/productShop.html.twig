@@ -13,7 +13,7 @@
             </div>
             <form action="" method="get" class="modal-content modal-body border-0 p-0">
                 <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
+                    <input type="text"  id="inputModalSearch" name="q" placeholder="Search ...">
                     <button type="submit" class="input-group-text bg-success text-light">
                         <i class="fa fa-fw fa-search text-white"></i>
                     </button>
@@ -70,22 +70,23 @@
                     <div class="col-md-6">
                         <ul class="list-inline shop-top-menu pb-3 pt-1">
                             <li class="list-inline-item">
-                                <a class="h3 text-dark text-decoration-none mr-3" href="#">All</a>
+                                <a class="h3 text-dark text-decoration-none mr-3 category-link" data-category="All" href="#">All</a>
                             </li>
                             <li class="list-inline-item">
-                                <a class="h3 text-dark text-decoration-none mr-3" href="#">Men's</a>
+                                <a class="h3 text-dark text-decoration-none mr-3 category-link" data-category="Gaming Laptop"  href="#">Laptops</a>
                             </li>
                             <li class="list-inline-item">
-                                <a class="h3 text-dark text-decoration-none" href="#">Women's</a>
+                                <a class="h3 text-dark text-decoration-none category-link" data-category="Gaming Desktop" href="#">Desktops</a>
                             </li>
                         </ul>
                     </div>
                     <div class="col-md-6 pb-4">
                         <div class="d-flex">
-                            <select class="form-control">
-                                <option>Featured</option>
-                                <option>A to Z</option>
-                                <option>Item</option>
+                            <select class="form-control tri" id="sortSelect">
+                                <option value="Default">Featured</option>
+                                <option value="A to Z">Z to A </option>
+                                <option value="Low to High">Price: Low to High </option>
+                                <option value="High to Low">Price: High to Low</option>
                             </select>
                         </div>
                     </div>
@@ -93,14 +94,14 @@
                 <div class="row">
                 {% for product in products %}
                     
-                    <div class="col-md-4">
+                    <div class="col-md-4 product" data-category="{{ product.category.name }}">
                         <div class="card mb-4 product-wap rounded-0">
                             <div class="card rounded-0">
-                                {% if product.images|length > 0 %}
+                        {% if product.images|length > 0 %}
                         <img class="card-img rounded-0 img-fluid" src="{{ asset('uploads/product_images/' ~ product.images.first.getPath()) }}" alt="Product Image">
-                    {% else %}
+                        {% else %}
                         <p>No image available for this product.</p>
-                    {% endif %}
+                         {% endif %}
                                 <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                     <ul class="list-unstyled">
                                         
@@ -130,7 +131,7 @@
                                         <i class="text-muted fa fa-star"></i>
                                     </li>
                                 </ul>
-                                <p class="text-center mb-0">{{product.price}}</p>
+                                <p class="text-center mb-0">{{product.price}} DT</p>
                             </div>
                         </div>
                     </div>
@@ -187,58 +188,59 @@
                                     <div class="carousel-item active">
                                         <div class="row">
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_01.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" src="assets/front/img/lenovo.png" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_02.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" src=" assets/front/img/asus.png" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_03.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" src=" assets/front/img/msi.png" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_04.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" src=" assets/front/img/hp.png" alt="Brand Logo"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--End First slide-->
+                                     <!--First slide-->
+                                    <div class="carousel-item ">
+                                        <div class="row">
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img" src="assets/front/img/lenovo.png" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img" src=" assets/front/img/asus.png" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img" src=" assets/front/img/msi.png" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img" src=" assets/front/img/hp.png" alt="Brand Logo"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--End First slide-->
+                                     <!--First slide-->
+                                    <div class="carousel-item ">
+                                        <div class="row">
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img" src="assets/front/img/lenovo.png" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img" src=" assets/front/img/asus.png" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img" src=" assets/front/img/msi.png" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img" src=" assets/front/img/hp.png" alt="Brand Logo"></a>
                                             </div>
                                         </div>
                                     </div>
                                     <!--End First slide-->
 
-                                    <!--Second slide-->
-                                    <div class="carousel-item">
-                                        <div class="row">
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_01.png" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_02.png" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_03.png" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_04.png" alt="Brand Logo"></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End Second slide-->
-
-                                    <!--Third slide-->
-                                    <div class="carousel-item">
-                                        <div class="row">
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_01.png" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_02.png" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_03.png" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_04.png" alt="Brand Logo"></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End Third slide-->
+                                  
+                                   
 
                                 </div>
                                 <!--End Slides-->
@@ -260,4 +262,94 @@
     </section>
     <!--End Brands-->
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get all category links
+        const categoryLinks = document.querySelectorAll('.category-link');
+
+        // Get all products
+        const products = document.querySelectorAll('.product');
+
+        // Function to hide products that don't match the selected category
+        function filterProducts(category) {
+            products.forEach(product => {
+                if (category === 'All' || product.dataset.category === category) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        }
+
+        // Add click event listeners to category links
+        categoryLinks.forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                // Get the category value to filter by
+                const category = this.dataset.category;
+
+                // Filter products based on the selected category
+                filterProducts(category);
+            });
+        });
+
+        // Get the select element for sorting
+        const sortSelect = document.querySelector('.tri');
+        console.log(sortSelect);
+        // Add change event listener to the sort select element
+        sortSelect.addEventListener('change', function () {
+            const sortBy = this.value;
+
+            if (sortBy === 'A to Z') {
+                // Sort products by name (A to Z)
+                const sortedProducts = Array.from(products).sort((a, b) => {
+                    const nameA = a.querySelector('a.h3').textContent.toLowerCase();
+                    const nameB = b.querySelector('a.h3').textContent.toLowerCase();
+                    return nameA.localeCompare(nameB);
+                });
+
+                // Clear existing products from the container
+                products.forEach(product => product.remove());
+
+                // Add sorted products back to the container
+                sortedProducts.forEach(product => {
+                    document.querySelector('.col-lg-9 .row').appendChild(product);
+                });
+            } else if (sortBy === 'Low to High') {
+                // Sort products by price (Low to High)
+                const sortedProducts = Array.from(products).sort((a, b) => {
+                    const priceA = parseFloat(a.querySelector('p.text-center').textContent.replace('$', ''));
+                    const priceB = parseFloat(b.querySelector('p.text-center').textContent.replace('$', ''));
+                    return priceA - priceB;
+                });
+
+                // Clear existing products from the container
+                products.forEach(product => product.remove());
+
+                // Add sorted products back to the container
+                sortedProducts.forEach(product => {
+                    document.querySelector('.col-lg-9 .row').appendChild(product);
+                });
+            } else if (sortBy === 'High to Low') {
+                // Sort products by price (High to Low)
+                const sortedProducts = Array.from(products).sort((a, b) => {
+                    const priceA = parseFloat(a.querySelector('p.text-center').textContent.replace('$', ''));
+                    const priceB = parseFloat(b.querySelector('p.text-center').textContent.replace('$', ''));
+                    return priceB - priceA;
+                });
+
+                // Clear existing products from the container
+                products.forEach(product => product.remove());
+
+                // Add sorted products back to the container
+                sortedProducts.forEach(product => {
+                    document.querySelector('.col-lg-9 .row').appendChild(product);
+                });
+            }
+        });
+    });
+</script>
+
 {% endblock %}
+
