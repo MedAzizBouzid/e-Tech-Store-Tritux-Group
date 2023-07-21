@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,10 +12,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class FrontController extends AbstractController
 {
     #[Route('/', name: 'app_front')]
-    public function index(): Response
-    {
+    public function index(ProductRepository  $categoryRepository): Response
+    {      
         return $this->render('front/index.html.twig', [
-            'controller_name' => 'FrontController',
+            'product' => $categoryRepository->findAll(),
         ]);
     }
     #[Route('/shop', name: 'app_shop')]
@@ -31,6 +32,7 @@ class FrontController extends AbstractController
 
         return $this->render('front/product/detailProduct.html.twig', [
             'product' => $product,
+            'products'=>$pr->findAll()
         ]);
     }
 }
