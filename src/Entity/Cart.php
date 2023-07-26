@@ -20,13 +20,23 @@ class Cart
     private ?bool $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'Cart')]
+    #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
+
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'carts')]
+    #[ORM\JoinColumn(name: 'commande_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
+
     private ?Order $commande = null;
 
     #[ORM\ManyToOne(inversedBy: 'Cart')]
     private ?User $user = null;
+
+    #[ORM\Column]
+    private ?float $totalP = null;
+
+    #[ORM\Column]
+    private ?bool $isEnabled = false;
 
     public function getId(): ?int
     {
@@ -89,6 +99,30 @@ class Cart
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getTotalP(): ?float
+    {
+        return $this->totalP;
+    }
+
+    public function setTotalP(float $totalP): static
+    {
+        $this->totalP = $totalP;
+
+        return $this;
+    }
+
+    public function isIsEnabled(): ?bool
+    {
+        return $this->isEnabled;
+    }
+
+    public function setIsEnabled(bool $isEnabled): static
+    {
+        $this->isEnabled = $isEnabled;
 
         return $this;
     }

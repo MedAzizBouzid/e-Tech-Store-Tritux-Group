@@ -17,6 +17,7 @@ class Media
     private ?string $path = null;
 
     #[ORM\ManyToOne(inversedBy: 'images')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Product $product = null;
 
     public function getId(): ?int

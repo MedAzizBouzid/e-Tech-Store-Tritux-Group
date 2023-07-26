@@ -91,14 +91,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row products-container">
                 {% for product in products %}
                     
                     <div class="col-md-4 product" data-category="{{ product.category.name }}">
                         <div class="card mb-4 product-wap rounded-0">
                             <div class="card rounded-0">
                         {% if product.images|length > 0 %}
-                        <img class="card-img rounded-0 img-fluid" src="{{ asset('uploads/product_images/' ~ product.images.first.getPath()) }}" alt="Product Image">
+                        <img class="card-img rounded-0 img-fluid" src="{{ asset('uploads/product_images/' ~ product.images.last.getPath()) }}" alt="Product Image">
                         {% else %}
                         <p>No image available for this product.</p>
                          {% endif %}
@@ -106,7 +106,12 @@
                                     <ul class="list-unstyled">
                                         
                                         <li><a class="btn btn-success text-white mt-2" href="{{ path('app_product_shop_detail', {'id': product.id}) }}"><i class="far fa-eye"></i></a></li>
-                                        <li><a class="btn btn-success text-white mt-2" href="#"><i class="fas fa-cart-plus"></i></a></li>
+                                       {% if product.quantity>0 %}
+                                        
+                                        <li><a class="btn btn-success text-white mt-2" href="{{path('app_cart_add',{'id':product.id})}}"><i class="fas fa-cart-plus"></i></a></li>
+                                      
+
+                                       {% endif %}
                                     </ul>
                                 </div>
                             </div>
@@ -121,6 +126,12 @@
                                         <span class="product-color-dot color-dot-light float-left rounded-circle ml-1"></span>
                                         <span class="product-color-dot color-dot-green float-left rounded-circle ml-1"></span>
                                     </li>
+                                    <li>
+                                    {% if product.quantity<=0 %}
+                                   <img style="width:70px;height:60px"src="{{asset('assets/front/img/soldout.png')}}" alt="">
+                                        
+                                    {% endif %}
+                                    </li>
                                 </ul>
                                 <ul class="list-unstyled d-flex justify-content-center mb-1">
                                     <li>
@@ -130,6 +141,7 @@
                                         <i class="text-muted fa fa-star"></i>
                                         <i class="text-muted fa fa-star"></i>
                                     </li>
+                                    
                                 </ul>
                                 <p class="text-center mb-0">{{product.price}} DT</p>
                             </div>
@@ -350,6 +362,56 @@
         });
     });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const productsContainer = document.querySelector('.products-container');
+        const products = productsContainer.querySelectorAll('.product');
+        const itemsPerPage = 6;
+        let currentPage = 1;
+        const totalPages = Math.ceil(products.length / itemsPerPage);
 
+        // Function to display products for the current page
+        function displayProductsForPage(page) {
+            const startIndex = (page - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+
+            products.forEach((product, index) => {
+                if (index >= startIndex && index < endIndex) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        }
+
+        // Function to create pagination links
+        function createPaginationLinks() {
+            const paginationContainer = document.querySelector('.pagination');
+            paginationContainer.innerHTML = '';
+
+            for (let i = 1; i <= totalPages; i++) {
+                const pageLink = document.createElement('li');
+                pageLink.classList.add('page-item');
+                if (i === currentPage) {
+                    pageLink.innerHTML = `<a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="#">${i}</a>`;
+                } else {
+                    pageLink.innerHTML = `<a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="#">${i}</a>`;
+                }
+
+                pageLink.addEventListener('click', function () {
+                    currentPage = i;
+                    displayProductsForPage(currentPage);
+                    createPaginationLinks();
+                });
+
+                paginationContainer.appendChild(pageLink);
+            }
+        }
+
+        // Initial display of products and pagination links
+        displayProductsForPage(currentPage);
+        createPaginationLinks();
+    });
+</script>
 {% endblock %}
 

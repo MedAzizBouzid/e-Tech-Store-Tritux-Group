@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Repository\CartRepository;
 use App\Repository\UserRepository;
 use App\Security\UserAuthenticator;
 use App\Service\JwtService;
@@ -106,6 +107,7 @@ class RegistrationController extends AbstractController
     #[Route('/verify/{token}', name: 'app_verify_email')]
     public function verifyUser($token,JWTService $jwt,UserRepository $userRepository, EntityManagerInterface $em): Response
     {   
+        
       // dd($jwt->check($token,$this->getParameter('app.jwtsecret')));
       //  dd($jwt->isExpired($token));
        if( $jwt->isValid($token)&& !$jwt->isExpired($token)&& $jwt->check($token,$this->getParameter('app.jwtsecret'))){
@@ -125,8 +127,16 @@ class RegistrationController extends AbstractController
         return $this->redirectToRoute('app_front');
     }
     #[Route('/renvoiMailVerif', name: 'app_renvoiMailVerif')]
-    public function renvoiMailVerif(Request $request ,UserRepository $userRepository,  SendMailService $mail,JWTService $jwt): Response
+    public function renvoiMailVerif(Request $request ,CartRepository $cr,UserRepository $userRepository,  SendMailService $mail,JWTService $jwt): Response
     {
+        $carts=$cr->findByUser($this->getUSer());
+        $length=0;
+        foreach($carts as $cart)
+        {
+            if($cart->getCommande()==null)
+            $length++;
+
+        }
         $user = new User();
         $user=$this->getUser() ;
        
@@ -154,8 +164,6 @@ class RegistrationController extends AbstractController
 
       
 
-        return $this->render('front/index.html.twig',[
-            
-        ]);
+       return $this->redirectToRoute('app_front');
     }
 }

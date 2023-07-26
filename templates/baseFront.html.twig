@@ -144,14 +144,12 @@
             <a class="nav-link" href="{{ path('app_front') }}">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="about.html">About</a>
+            <a class="nav-link" href="{{ path('app_about') }}">About</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{path('app_shop')}}">Shop</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="contact.html">Contact</a>
-          </li>
+         
         </ul>
       </div>
       <div class="navbar align-self-center d-flex">
@@ -178,11 +176,11 @@
   </a>
    {% if app.user %}
 
-  <a class="nav-icon position-relative text-decoration-none" href="#">
+  <a class="nav-icon position-relative text-decoration-none" href="{{path('app_cart')}}">
     <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
     <span
       class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"
-      >7</span
+      >{{length}}</span
     >
   </a>
   <div class="ml-auto"> <!-- Added this div with ml-auto class -->
@@ -307,8 +305,8 @@
           Further Info
         </h2>
         <ul class="list-unstyled text-light footer-link-list">
-          <li><a class="text-decoration-none" href="#">Home</a></li>
-          <li><a class="text-decoration-none" href="#">About Us</a></li>
+          <li><a class="text-decoration-none" href="{{path('app_front')}}">Home</a></li>
+          <li><a class="text-decoration-none" href="{{path('app_about')}}">About Us</a></li>
           <li><a class="text-decoration-none" href="#">Shop Locations</a></li>
           <li><a class="text-decoration-none" href="#">FAQs</a></li>
           <li><a class="text-decoration-none" href="#">Contact</a></li>
