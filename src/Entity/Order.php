@@ -25,6 +25,9 @@ class Order
     #[ORM\OneToMany(mappedBy: 'commande', targetEntity: Cart::class)]
     private Collection $carts;
 
+    #[ORM\Column]
+    private ?float $totalO = null;
+
     public function __construct()
     {
         $this->carts = new ArrayCollection();
@@ -85,6 +88,18 @@ class Order
                 $cart->setCommande(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTotalO(): ?float
+    {
+        return $this->totalO;
+    }
+
+    public function setTotalO(float $totalO): static
+    {
+        $this->totalO = $totalO;
 
         return $this;
     }

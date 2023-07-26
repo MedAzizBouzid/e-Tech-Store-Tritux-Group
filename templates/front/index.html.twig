@@ -1,7 +1,6 @@
 {% extends 'baseFront.html.twig' %} {% block title %}Hello FrontController!{%
 endblock %} {% block body %}
 
-
 <!-- Modal -->
 <div
   class="modal fade bg-white"
@@ -63,7 +62,7 @@ endblock %} {% block body %}
       <img
         style="width: 2000px"
         class="img-fluid"
-        src="{{ asset('assets/front/img/afiiche-1.jpg') }}"
+        src="{{ asset('assets/front/img/affiche-1.jpg') }}"
         alt=""
       />
     </div>
@@ -115,26 +114,24 @@ endblock %} {% block body %}
     </div>
   </div>
   <div class="row">
-{% set displayedCategories = [] %}
-
-{% for prod in product %}
-  {% set categoryName = prod.category.name %}
-
-  {% if categoryName not in displayedCategories %}
-    {% set displayedCategories = displayedCategories|merge([categoryName]) %}
+    {% set displayedCategories = [] %} {% for prod in product %} {% set
+    categoryName = prod.category.name %} {% if categoryName not in
+    displayedCategories %} {% set displayedCategories =
+    displayedCategories|merge([categoryName]) %}
 
     <div class="col-12 col-md-4 p-5 mt-3">
       <a href="#">
-        <img src="{{ asset('uploads/product_images/' ~ prod.images.first.getPath()) }}"
-             class="rounded-circle img-fluid border">
+        <img
+          src="{{ asset('uploads/product_images/' ~ prod.images.last.getPath()) }}"
+          class="rounded-circle img-fluid border"
+        />
       </a>
       <h5 class="text-center mt-3 mb-3">{{ categoryName }}</h5>
       <p class="text-center">
         <a class="btn btn-success" href="{{ path('app_shop') }}">Go Shop</a>
       </p>
     </div>
-  {% endif %}
-{% endfor %}
+    {% endif %} {% endfor %}
   </div>
 </section>
 <!-- End Categories of The Month -->
@@ -144,19 +141,21 @@ endblock %} {% block body %}
   <div class="container py-5">
     <div class="row text-center py-3">
       <div class="col-lg-6 m-auto">
-        <h1 class="h1">Featured Product</h1>
-        <p>
-          Reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident.
-        </p>
+        <h1 class="h1">Shops</h1>
+        
       </div>
     </div>
     <div class="row">
+    {% for shop in shops %}
+      {% if shop.id == 3 %}
+      <div></div>
+        {% else %}
       <div class="col-12 col-md-4 mb-4">
         <div class="card h-100">
-          <a href="shop-single.html">
-            <img
-              src="{{ asset('assets/front/img/feature_prod_01.jpg') }}"
+          <a href="{{path('app_about')}}">
+            <img style="width:250px;
+            padding-left:50px;padding-top:10px"
+              src="{{ asset('uploads/shop_images/'~shop.image) }}"
               class="card-img-top"
               alt="..."
             />
@@ -170,85 +169,21 @@ endblock %} {% block body %}
                 <i class="text-muted fa fa-star"></i>
                 <i class="text-muted fa fa-star"></i>
               </li>
-              <li class="text-muted text-right">$240.00</li>
+              
             </ul>
             <a href="shop-single.html" class="h2 text-decoration-none text-dark"
-              >Gym Weight</a
+              >{{shop.nom}}</a
             >
-            <p class="card-text">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt in
-              culpa qui officia deserunt.
-            </p>
-            <p class="text-muted">Reviews (24)</p>
+           
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-4 mb-4">
-        <div class="card h-100">
-          <a href="shop-single.html">
-            <img
-              src="{{ asset('assets/front/img/feature_prod_02.jpg') }}"
-              class="card-img-top"
-              alt="..."
-            />
-          </a>
-          <div class="card-body">
-            <ul class="list-unstyled d-flex justify-content-between">
-              <li>
-                <i class="text-warning fa fa-star"></i>
-                <i class="text-warning fa fa-star"></i>
-                <i class="text-warning fa fa-star"></i>
-                <i class="text-muted fa fa-star"></i>
-                <i class="text-muted fa fa-star"></i>
-              </li>
-              <li class="text-muted text-right">$480.00</li>
-            </ul>
-            <a href="shop-single.html" class="h2 text-decoration-none text-dark"
-              >Cloud Nike Shoes</a
-            >
-            <p class="card-text">
-              Aenean gravida dignissim finibus. Nullam ipsum diam, posuere vitae
-              pharetra sed, commodo ullamcorper.
-            </p>
-            <p class="text-muted">Reviews (48)</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-4 mb-4">
-        <div class="card h-100">
-          <a href="shop-single.html">
-            <img
-              src="{{ asset('assets/front/img/feature_prod_03.jpg') }}"
-              class="card-img-top"
-              alt="..."
-            />
-          </a>
-          <div class="card-body">
-            <ul class="list-unstyled d-flex justify-content-between">
-              <li>
-                <i class="text-warning fa fa-star"></i>
-                <i class="text-warning fa fa-star"></i>
-                <i class="text-warning fa fa-star"></i>
-                <i class="text-warning fa fa-star"></i>
-                <i class="text-warning fa fa-star"></i>
-              </li>
-              <li class="text-muted text-right">$360.00</li>
-            </ul>
-            <a href="shop-single.html" class="h2 text-decoration-none text-dark"
-              >Summer Addides Shoes</a
-            >
-            <p class="card-text">
-              Curabitur ac mi sit amet diam luctus porta. Phasellus pulvinar
-              sagittis diam, et scelerisque ipsum lobortis nec.
-            </p>
-            <p class="text-muted">Reviews (74)</p>
-          </div>
-        </div>
-      </div>
+      {% endif %}
+    {% endfor %}
+     
     </div>
   </div>
 </section>
 <!-- End Featured Product -->
-
 
 {% endblock %}

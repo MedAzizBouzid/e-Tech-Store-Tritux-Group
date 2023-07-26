@@ -1,0 +1,161 @@
+{% extends 'baseFront.html.twig' %}
+{% block body %}
+
+    <div class="container">
+    <section class="h-100 h-custom" style="background-color: #eee;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col">
+        <div class="card">
+          <div class="card-body p-4">
+
+            <div class="row">
+
+              <div class="col-lg-7">
+                <h5 class="mb-3"><a href="{{path('app_shop')}}" class="text-body"><i
+                      class="fas fa-long-arrow-alt-left me-2"></i>Continue shopping</a></h5>
+                <hr>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                  <div>
+                    <p class="mb-1">Shopping cart</p>
+                    <p class="mb-0">You have {{length}} items in your cart</p>
+                  </div>
+                  <div>
+                    <p class="mb-0"><span class="text-muted">Sort by:</span> <a href="#!"
+                        class="text-body">price <i class="fas fa-angle-down mt-1"></i></a></p>
+                  </div>
+                </div>
+
+                <div class="card mb-3">
+                {% for cart in carts %}
+                  {% if cart.commande != null %}
+                 <div></div>
+                    {% else %}
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div class="d-flex flex-row align-items-center">
+                        <div class="ms-3">
+                          {% if cart.status == false %}
+                              <a  href="{{ path('app_status_check', {'id': cart.id}) }}"><img style="width:15px" src="{{asset('assets/front/img/uncheck.png')}}" alt=""></a>
+                              
+
+                          {% else %}
+                              <a  href="{{ path('app_status_uncheck', {'id': cart.id}) }}"><img style="width:15px" src="{{asset('assets/front/img/check.png')}}" alt=""></a>
+                                
+
+                          {% endif %}
+
+
+
+
+ 
+                         </div>
+                        <div>
+                          <img
+                            src="{{asset('uploads/product_images/' ~ cart.product.images.last.path)}}"
+                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+                        </div>
+                        <div class="ms-3">
+                          <h5>{{cart.product.name}}</h5>
+                          <p class="small mb-0">{{cart.product.category.name}}</p>
+                        </div>
+                      </div>
+                      <div class="d-flex flex-row align-items-center">
+                     
+                       
+                   
+                        <div style="width: 50px;">
+                          <h5 class="fw-normal mb-0">{{cart.quantity}}</h5>
+                        </div>
+
+                         
+                 
+                        <div style="width: 80px;">
+                          <h5 class="mb-0">{{cart.totalP}} DT</h5>
+                        </div>
+                        <a href="{{path('app_cart_add_cart',{'id':cart.product.id})}}" class="btn btn-success " ><i class="bi bi-cart-plus"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus-fill" viewBox="0 0 16 16"><path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM9 5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 1 0z"></path></svg></i>
+														</a>  
+                        <a href="{{path('app_cart_decrement',{'id':cart.id})}}" class="btn btn-warning"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-dash" viewBox="0 0 16 16"><path d="M6.5 7a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4z"></path><path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></a>
+                        <a href="{{path('app_cart_delete',{'id':cart.id})}}" class="btn btn-danger"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-x" viewBox="0 0 16 16"><path d="M7.354 5.646a.5.5 0 1 0-.708.708L7.793 7.5 6.646 8.646a.5.5 0 1 0 .708.708L8.5 8.207l1.146 1.147a.5.5 0 0 0 .708-.708L9.207 7.5l1.147-1.146a.5.5 0 0 0-.708-.708L8.5 6.793 7.354 5.646z"></path>
+															<path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path></svg></a>
+
+                      </div>
+                    </div>
+                  </div>
+                  {% endif %}
+                {% endfor %}
+                </div>
+
+                
+
+              </div>
+              <div class="col-lg-5">
+
+                <div class="card bg-primary text-white rounded-3">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                      <h5 class="mb-0">Card details</h5>
+                      <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp"
+                        class="img-fluid rounded-3" style="width: 45px;" alt="Avatar">
+                    </div>
+
+                    
+                    
+                    <hr class="my-4">
+
+                    <div class="d-flex justify-content-between">
+                      <p class="mb-2">Subtotal</p>
+                      <p class="mb-2">{{subtotal}} DT</p>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                      <p class="mb-2">Shipping</p>
+                      <p class="mb-2">20.00 DT</p>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-4">
+                      <p class="mb-2">Total(Incl. taxes)</p>
+                    {% set total = subtotal+20 %}
+                      <p class="mb-2">{{total}} DT</p>
+                    </div>
+
+                  
+                    <a href="{{path('app_order_add')}}" class="btn btn-info btn-block btn-lg">
+                      <div class="d-flex justify-content-between">
+                       
+                        <span>Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                      </div>
+                  </a>
+
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section></div>
+<script>
+    // JavaScript pour désactiver le lien lors du chargement initial de la page (s'il est déjà coché)
+    const checkbox = document.getElementById('myCheckbox');
+    const link = document.getElementById('myLink');
+    
+    if (checkbox.checked) {
+        link.classList.add('disabled-link');
+    }
+
+    checkbox.addEventListener('click', function() {
+        if (checkbox.checked) {
+            link.classList.add('disabled-link');
+        } else {
+            link.classList.remove('disabled-link');
+        }
+    });
+</script>
+{% endblock %}

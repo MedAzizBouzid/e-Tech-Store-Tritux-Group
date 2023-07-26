@@ -41,6 +41,9 @@ security:
     - { path: ^/category, roles:  ROLE_ADMIN } 
     - { path: ^/product, roles:  ROLE_ADMIN }
     - { path: ^/media, roles:  ROLE_ADMIN } 
+    - { path: ^/boutique, roles:  ROLE_ADMIN }
+    - { path: ^/cart, roles:  ROLE_USER }
+    - { path: ^/order, roles:  ROLE_USER }
  
 
 
