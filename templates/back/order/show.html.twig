@@ -1,28 +1,52 @@
-<!DOCTYPE html>
+{% extends 'baseBack.html.twig' %}
 
-<title>Order</title>
 
 {% block body %}
+<div class="container">
     <h1>Order</h1>
 
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
+                <th>Id Order</th>
                 <td>{{ order.id }}</td>
             </tr>
+             <tr>
+                <th>Client Name:</th>
+                <td>{{ order.carts.first.user.firstname }} {{ order.carts.first.user.lastname }}</td>
+            </tr>
             <tr>
-                <th>InsertedAt</th>
-                <td>{{ order.insertedAt ? order.insertedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <th>Client Address:</th>
+                <td>{{ order.carts.first.user.address}} </td>
+            </tr>
+             <tr>
+                <th>Client Phone:</th>
+                <td>{{ order.carts.first.user.phone}} </td>
+            </tr>
+            <tr>
+                <th>Ordered At</th>
+                <td>{{ order.insertedAt ? order.insertedAt|date('Y-m-d ') : '' }}</td>
             </tr>
             <tr>
                 <th>Status</th>
-                <td>{{ order.status ? 'Yes' : 'No' }}</td>
+                <td>{{ order.status ? 'Delivered' : 'In Process' }}</td>
             </tr>
             <tr>
-                <th>TotalO</th>
-                <td>{{ order.totalO }}</td>
+            <th>Products Ordered</th>
+            
+              <td>
+              {% for cart in order.carts %}
+             <b>Name:</b> {{cart.product.name}} | <b>Quantity:</b> {{cart.quantity}} | <b>Price:</b> {{cart.product.price}} DT
+              <br>
+               {% endfor %}
+              </td>  
+           
             </tr>
+            <tr>
+                <th>Total Order</th>
+                <td>{{ order.totalO }} DT</td>
+            </tr>
+            
         </tbody>
     </table>
 
@@ -30,5 +54,6 @@
 
     <a href="{{ path('app_order_edit', {'id': order.id}) }}">edit</a>
 
-    {{ include('order/_delete_form.html.twig') }}
+    {{ include('back/order/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

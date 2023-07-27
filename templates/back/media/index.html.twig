@@ -21,7 +21,12 @@
                                         <img src="{{ asset('uploads/product_images/'~ medium.path) }}" alt="" width="75"
                                         >
                                         </td>
-                <td>{{ medium.product.name}}</td>
+                                        {% if medium.product == null  %}
+                                        <td>! ! Not affected to any product ! !</td>
+                                            {% else %}
+                                                            <td>{{ medium.product.name}}</td>
+
+                                        {% endif %}
                 <td>
                     <a class="btn btn-danger "href="{{ path('app_media_delete', {'id': medium.id}) }}">Delete</a>
            
