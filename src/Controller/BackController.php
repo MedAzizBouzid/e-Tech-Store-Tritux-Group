@@ -75,32 +75,38 @@ class BackController extends AbstractController
         $historicalEarningsData = [];
 
         foreach ($commandes as $commande) {
-            $date = $commande->getInsertedAt()->format('Y-m-d'); // Format the date as 'Y-m-d'
+            $dateTimeObject = $commande->getInsertedAt();
+            $formattedDate = $dateTimeObject->format('Y-m-d ');
+            $dateTimeObject = $commande->getInsertedAt();
+            $formattedDate = $dateTimeObject->format('Y-m-d');
+            
+            // Add backslashes to escape double quotes
+            $formattedDateWithBackslashes = '\"' . $formattedDate . '\"';
             $earnings = $commande->getTotalO();
-
+                //dd($formattedDateWithBackslashes);
+              //  \"2023-07-01\"
             // Add the date and earnings as a new entry to $historicalEarningsData
-            $historicalEarningsData[] = [$date, $earnings];
+            $historicalEarningsData[] = [$formattedDate, $earnings];
         }
 
+         // Construct the JSON string manually
+$jsonHistoricalEarningsData = json_encode($historicalEarningsData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+$jsonHistoricalEarningsData = str_replace('"', '\\"', $jsonHistoricalEarningsData);
 
-        // Encode the historical earnings data as JSON
-        $jsonHistoricalEarningsData = json_encode($historicalEarningsData);
-  
-        // Specify the full path to the Python script
+// Call the Python script and pass the historical earnings data as a command-line argument
+$pythonScriptPath = "C:\\Users\\Admin\\Desktop\\e-Tech-Store\\src\\Controller\\forecast_earnings.py";
+$command = "python3 " . $pythonScriptPath . " \"" . $jsonHistoricalEarningsData . "\"";
 
-
-        // Call the Python script and pass the historical earnings data as a command-line argument
-        // $command = "python3 " . $pythonScriptPath . " " . escapeshellarg($jsonHistoricalEarningsData);
-        $command = "python C:\Users\Admin\Desktop\e-Tech-Store\src\Controller\forecast_earnings.py" . " " . escapeshellarg($jsonHistoricalEarningsData);
-        dd($command);
+      
+        //dd($command);
         // Execute the Python script using Py4Php
         $forecastedEarnings = shell_exec($command);
         // Debugging: Check the output
-  
+       // dd($forecastedEarnings);
         // Convert the JSON response from Python to a PHP array
         $forecastedEarnings = json_decode($forecastedEarnings, true);
 
-    
+        
 
 
         return $this->render('back/index.html.twig', [
@@ -112,5 +118,4 @@ class BackController extends AbstractController
 
         ]);
     }
-   
 }

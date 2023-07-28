@@ -109,9 +109,66 @@
 
                     <div class="row">
 
-                        <!-- Area Chart -->
-                      <p>{{forecasedEarnings}}</p>
+                        <!-- ForecastedEarnings Chart -->
+                  
                            
+<!-- Display the forecasted earnings chart -->
+<div style="width: 3000px;height:500px; margin: auto;">
+    <canvas id="forecastChart"></canvas>
+</div>
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+
+<script>
+    // Get the forecasted earnings data from Twig and convert it to JavaScript array
+    var forecastedEarningsData = {{ forecasedEarnings | json_encode | raw }};
+
+    // Extract the dates and earnings from the data for chart rendering
+    var forecastDates = forecastedEarningsData.map(entry => entry.date);
+    var forecastEarnings = forecastedEarningsData.map(entry => entry.earnings);
+
+    // Create a line chart using Chart.js
+    var forecastChart = new Chart('forecastChart', {
+        type: 'line',
+        data: {
+            labels: forecastDates,
+            datasets: [{
+                label: 'Forecasted Earnings',
+                data: forecastEarnings,
+                borderColor: 'blue',
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'Forecasted Earnings for the Next 10 Days'
+            },
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'day',
+                        displayFormats: {
+                            day: 'YYYY-MM-DD'
+                        }
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Earnings'
+                    }
+                }
+            }
+        }
+    });
+</script>
+
                         <!-- Pie Chart -->
                         
                     </div>

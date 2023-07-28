@@ -100,5 +100,35 @@ class FrontController extends AbstractController
             'length'=>  $length,
         ]);
     }
+    #[Route('/403', name: 'app_403')]
+    public function error(ShopRepository $sr,CartRepository $cr): Response
+    {       $carts=$cr->findByUser($this->getUSer());
+        $length=0;
+        foreach($carts as $cart)
+        {
+            if($cart->getCommande()==null)
+            $length++;
+
+        }
+        return $this->render('front/403.html.twig', [
+           'shops'=>$sr->findAll(),
+           'length'=>  $length,
+        ]);
+    }
+    #[Route('/404', name: 'app_404')]
+    public function error404(ShopRepository $sr,CartRepository $cr): Response
+    {   $carts=$cr->findByUser($this->getUSer());
+        $length=0;
+        foreach($carts as $cart)
+        {
+            if($cart->getCommande()==null)
+            $length++;
+
+        }
+        return $this->render('front/404.html.twig', [
+           'shops'=>$sr->findAll(),
+           'length'=>  $length,
+        ]);
+    }
    
 }
