@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-
-<title>Order index</title>
+{% extends 'baseBack.html.twig' %}
 
 {% block body %}
-    <h1>Order index</h1>
+<div class="container">
+    <h1>Order Table</h1>
 
     <table class="table">
         <thead>
@@ -20,11 +19,11 @@
             <tr>
                 <td>{{ order.id }}</td>
                 <td>{{ order.insertedAt ? order.insertedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ order.status ? 'Yes' : 'No' }}</td>
-                <td>{{ order.totalO }}</td>
+                <td>{{ order.status ? 'Delivered' : 'In Process' }}</td>
+                <td>{{ order.totalO }} DT</td>
                 <td>
-                    <a href="{{ path('app_order_show', {'id': order.id}) }}">show</a>
-                    <a href="{{ path('app_order_edit', {'id': order.id}) }}">edit</a>
+                    <a href="{{ path('app_order_show', {'id': order.id}) }}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/> <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/></svg></a>
+                    <a href="{{ path('app_order_edit', {'id': order.id}) }}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen-fill" viewBox="0 0 16 16"><path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/></a>
                 </td>
             </tr>
         {% else %}
@@ -35,5 +34,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_order_new') }}">Create new</a>
+    {# <a href="{{ path('app_order_new') }}"><svg xmlns="http://www.w3.org/2000/svg" class="svg-icon" style="width: 1em;height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1"><path d="M575.995 566.949993m0 54.852857l0 164.421441q0 54.852857-54.852857 54.852857l0 0q-54.852857 0-54.852858-54.852857l0-164.421441q0-54.852857 54.852858-54.852857l0 0q54.852857 0 54.852857 54.852857Z"/><path d="M910.825985 384.049996H411.436428V219.41143a109.705715 109.705715 0 0 1 109.705715-109.705715 109.705715 109.705715 0 0 1 109.705715 109.705715v18.284286a54.852857 54.852857 0 0 0 109.705715 0v-18.284286C740.553573 98.278036 642.275537 0 521.142143 0S301.730713 98.278036 301.730713 219.41143v164.638566H113.174015a49.139018 49.139018 0 0 0-49.139018 49.139018v541.671968a49.139018 49.139018 0 0 0 49.139018 49.139018h797.65197a49.139018 49.139018 0 0 0 49.139018-49.139018v-541.671968a49.139018 49.139018 0 0 0-49.139018-49.139018z m-60.566697 530.244289H173.740712v-420.538574h676.518576z"/></svg></a> #}
+    </div>
 {% endblock %}

@@ -35,11 +35,8 @@
             <script src="{{ asset('assets/back/js/sb-admin-2.min.js')}}"></script>
 
             <!-- Page level plugins -->
-            <script src="{{ asset('assets/back/vendor/chart.js/Chart.min.js')}}"></script>
-
-            <!-- Page level custom scripts -->
-            <script src="{{ asset('assets/back/js/demo/chart-area-demo.js')}}"></script>
-            <script src="{{ asset('assets/back/js/demo/chart-pie-demo.js')}}"></script>
+        
+            <!--Script for chart js-->
 
 
     <!-- Page level plugins -->
@@ -130,6 +127,11 @@
                         aria-expanded="true" aria-controls="collapsePages">
                         <i class="fas fa-fw fa-folder"></i>
                         <span>Shops</span>
+                    </a>
+                    <a class="nav-link collapsed" href="{{path('app_order_index')}}" 
+                        aria-expanded="true" aria-controls="collapsePages">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>Orders</span>
                     </a>
                    
                 </li>
@@ -360,15 +362,5 @@
 
     </body>
     </div>
-    {% block footer %}
-        <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
-    {% endblock %}
+    
 </html>

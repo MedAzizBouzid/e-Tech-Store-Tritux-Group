@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Forecasted Earnings Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <h2>Forecasted Earnings for the Next 10 Days</h2>
+    <ul>
+      <li>Date: 2023-07-29, Predicted Earnings: 100</li>
+      <li>Date: 2023-07-30, Predicted Earnings: 150</li>
+      <!-- Add more forecasted data here -->
+    </ul>
+
+    <!-- Display the forecasted earnings chart -->
+    <div style="width: 80%; margin: auto">
+      <canvas id="forecastChart"></canvas>
+    </div>
+
+    <script>
+      // Forecasted earnings data (dummy data)
+      var forecastedEarningsData = [
+        { date: "2023-07-29", earnings: 100 },
+        { date: "2023-07-30", earnings: 150 },
+        // Add more forecasted data here
+      ];
+
+      var forecastDates = forecastedEarningsData.map((entry) => entry.date);
+      var forecastEarnings = forecastedEarningsData.map(
+        (entry) => entry.earnings
+      );
+
+      var forecastChart = new Chart("forecastChart", {
+        type: "line",
+        data: {
+          labels: forecastDates,
+          datasets: [
+            {
+              label: "Forecasted Earnings",
+              data: forecastEarnings,
+              borderColor: "blue",
+              fill: false,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          title: {
+            display: true,
+            text: "Forecasted Earnings for the Next 10 Days",
+          },
+          scales: {
+            x: {
+              type: "time",
+              time: {
+                unit: "day",
+                displayFormats: {
+                  day: "YYYY-MM-DD",
+                },
+              },
+            },
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: "Earnings",
+              },
+            },
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

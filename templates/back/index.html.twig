@@ -32,8 +32,8 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                                Users</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{usersCount}}</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -50,8 +50,8 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Earnings (Annual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                                Earnings </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{earnings}} DT</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -67,19 +67,13 @@
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Most Ordered Product
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{mostOrderedProduct.name}}</div>
                                                 </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
+                                               
                                             </div>
                                         </div>
                                         <div class="col-auto">
@@ -97,8 +91,10 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Pending Requests</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                                Pending Orders</div>
+                                                <a href="{{path('app_order_index')}}">
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{orders}}</div>
+                                                    </a>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -113,9 +109,66 @@
 
                     <div class="row">
 
-                        <!-- Area Chart -->
-                      
+                        <!-- ForecastedEarnings Chart -->
+                  
                            
+<!-- Display the forecasted earnings chart -->
+<div style="width: 3000px;height:500px; margin: auto;">
+    <canvas id="forecastChart"></canvas>
+</div>
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+
+<script>
+    // Get the forecasted earnings data from Twig and convert it to JavaScript array
+    var forecastedEarningsData = {{ forecasedEarnings | json_encode | raw }};
+
+    // Extract the dates and earnings from the data for chart rendering
+    var forecastDates = forecastedEarningsData.map(entry => entry.date);
+    var forecastEarnings = forecastedEarningsData.map(entry => entry.earnings);
+
+    // Create a line chart using Chart.js
+    var forecastChart = new Chart('forecastChart', {
+        type: 'line',
+        data: {
+            labels: forecastDates,
+            datasets: [{
+                label: 'Forecasted Earnings',
+                data: forecastEarnings,
+                borderColor: 'blue',
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'Forecasted Earnings for the Next 10 Days'
+            },
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'day',
+                        displayFormats: {
+                            day: 'YYYY-MM-DD'
+                        }
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Earnings'
+                    }
+                }
+            }
+        }
+    });
+</script>
+
                         <!-- Pie Chart -->
                         
                     </div>

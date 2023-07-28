@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Form\UpdatePasswordType;
 use App\Form\UserEditType;
+use App\Repository\CartRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +19,22 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserController extends AbstractController
 {
+    #[Route('/profile', name: 'app_profile_user')]
+    public function profile(CartRepository $cr): Response
+    {
+        $carts = $cr->findByUser($this->getUSer());
+        $length = 0;
+        foreach ($carts as $cart) {
+            if ($cart->getCommande() == null)
+                $length++;
+        }
+
+        return $this->render('front/user/profileUser.html.twig', [
+
+            'length' =>  $length,
+
+        ]);
+    }
     //----------------Show Users BackOffice
     #[Route('/showAllUsers', name: 'app_user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
@@ -104,8 +121,14 @@ class UserController extends AbstractController
         ]);
     }
     #[Route('user/editPassword/{id}', name: 'app_user_edit_password', methods: ['GET', 'POST'])]
-    public function editPassword(Request $request, User $user, UserRepository $userRepository, SluggerInterface $slugger, UserPasswordHasherInterface $hasher): Response
+    public function editPassword(CartRepository $cr, Request $request, User $user, UserRepository $userRepository, SluggerInterface $slugger, UserPasswordHasherInterface $hasher): Response
     {
+        $carts = $cr->findByUser($this->getUSer());
+        $length = 0;
+        foreach ($carts as $cart) {
+            if ($cart->getCommande() == null)
+                $length++;
+        }
         $form = $this->createForm(UpdatePasswordType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -125,7 +148,8 @@ class UserController extends AbstractController
 
 
         return $this->render('front/user/editPassword.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'length' =>  $length,
 
         ]);
     }
@@ -154,9 +178,5 @@ class UserController extends AbstractController
     //*****************************************FRONT**********************************************/
 
     //------------Detail Profil FrontOffice
-    #[Route('/profile', name: 'app_profile')]
-    public function profile(): Response
-    {
-        return $this->render('front/user/profileUser.html.twig');
-    }
+   
 }

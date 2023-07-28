@@ -17,7 +17,7 @@ class OrderController extends AbstractController
     #[Route('/', name: 'app_order_index', methods: ['GET'])]
     public function index(OrderRepository $orderRepository): Response
     {
-        return $this->render('order/index.html.twig', [
+        return $this->render('back/order/index.html.twig', [
             'orders' => $orderRepository->findAll(),
         ]);
     }
@@ -61,11 +61,12 @@ class OrderController extends AbstractController
        
        return $this->redirectToRoute('app_front'); ;
     }
+    
 
     #[Route('/{id}', name: 'app_order_show', methods: ['GET'])]
     public function show(Order $order): Response
     {
-        return $this->render('order/show.html.twig', [
+        return $this->render('back/order/show.html.twig', [
             'order' => $order,
         ]);
     }
@@ -73,19 +74,14 @@ class OrderController extends AbstractController
     #[Route('/{id}/edit', name: 'app_order_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Order $order, OrderRepository $orderRepository): Response
     {
-        $form = $this->createForm(OrderType::class, $order);
-        $form->handleRequest($request);
+        if($order->isStatus()==false)
+            $order->setStatus(true);
+            else $order->setStatus(false);
+            $orderRepository->save($order,true);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $orderRepository->save($order, true);
-
-            return $this->redirectToRoute('app_order_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('order/edit.html.twig', [
-            'order' => $order,
-            'form' => $form,
-        ]);
+      return $this->redirectToRoute('app_order_index');
+          
+        
     }
 
     #[Route('/{id}', name: 'app_order_delete', methods: ['POST'])]
