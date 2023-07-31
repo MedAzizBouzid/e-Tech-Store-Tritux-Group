@@ -27,7 +27,8 @@ class CartController extends AbstractController
 
             $existingCart = $cartRepository->findOneBy([
                 'user' => $this->getUser(),
-                'product' => $product
+                'product' => $product,
+                'isEnabled'=>false
             ]);
             if ($existingCart && $existingCart->isIsEnabled()==false) {
 
@@ -63,11 +64,13 @@ class CartController extends AbstractController
 
             $existingCart = $cartRepository->findOneBy([
                 'user' => $this->getUser(),
-                'product' => $product
+                'product' => $product,
+                'isEnabled'=>false
             ]);
             if ($existingCart) {
-
+               
                 $existingCart->setQuantity($existingCart->getQuantity() + 1);
+               
                 $product->setQuantity($product->getQuantity() - 1);
                 $existingCart->setTotalP($prix * $existingCart->getQuantity());
                 $cartRepository->save($existingCart, true);

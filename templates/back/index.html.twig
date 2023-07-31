@@ -114,13 +114,77 @@
                            
 <!-- Display the forecasted earnings chart -->
 <div style="width: 3000px;height:500px; margin: auto;">
+    <h4>
+    <b>
+    Forecast Earning for the next 10 Days:</h4>
+    </b>
     <canvas id="forecastChart"></canvas>
+    <br>
+        <h4> <b>
+        
+        Product's quantities ordered:</h4>
+        </b>
+
+    <canvas id="productQuantityChart" width="400" height="200"></canvas>
 </div>
 
-
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
 
 <script>
+  document.addEventListener("DOMContentLoaded", function () {
+            const productNames = {{ productNames|raw }};
+            const quantitiesOrdered = {{ quantitiesOrdered|raw }};
+
+            const ctx = document.getElementById('productQuantityChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: productNames,
+                    datasets: [{
+                        label: 'Quantities Ordered',
+                        data: quantitiesOrdered,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                    }]
+                },
+                options: {
+                    
+                scales: {
+                yAxes: [{
+            display: true,
+            ticks: {
+                beginAtZero: true,
+                
+            }
+        }]
+                
+            }
+        }
+            });
+        });
+
+
+
+
     // Get the forecasted earnings data from Twig and convert it to JavaScript array
     var forecastedEarningsData = {{ forecasedEarnings | json_encode | raw }};
 
@@ -143,10 +207,7 @@
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            title: {
-                display: true,
-                text: 'Forecasted Earnings for the Next 10 Days'
-            },
+           
             scales: {
                 x: {
                     type: 'time',
@@ -169,23 +230,8 @@
     });
 </script>
 
-                        <!-- Pie Chart -->
-                        
-                    </div>
+                    
 
-                    <!-- Content Row -->
-                
-
-                </div>
-                <!-- /.container-fluid -->
-
-           
-            <!-- End of Main Content -->
-
-            
-
-        </div>
-       
 
 
 

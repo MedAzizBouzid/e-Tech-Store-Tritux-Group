@@ -29,6 +29,10 @@ class RegistrationFormType extends AbstractType
                 TextType::class,
                 [
                     'label' => 'First Name:',
+                    'attr' => [
+                        'placeholder' => 'First Name',
+                        'class' => 'form-control'
+                    ],
                     'constraints' => [
                         new NotBlank(),
                         new Regex([
@@ -42,7 +46,10 @@ class RegistrationFormType extends AbstractType
             )
             ->add('image', FileType::class, [
                 'label' => 'Your profile image',
+                'attr' => [
 
+                    'class' => 'form-control'
+                ],
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
 
@@ -70,6 +77,10 @@ class RegistrationFormType extends AbstractType
                 TextType::class,
                 [
                     'label' => 'Last Name:',
+                    'attr' => [
+                        'placeholder' => 'Last Name',
+                        'class' => 'form-control'
+                    ],
                     'constraints' => [
                         new NotBlank(),
                         new Regex([
@@ -81,11 +92,17 @@ class RegistrationFormType extends AbstractType
                     ]
                 ]
             )
+
             ->add(
                 'address',
+
                 TextType::class,
                 [
-                    'label' => 'Address:'
+                    'label' => 'Address:',
+                    'attr' => [
+                        'placeholder' => 'Address',
+                        'class' => 'form-control'
+                    ],
                 ]
             )
             ->add(
@@ -93,6 +110,10 @@ class RegistrationFormType extends AbstractType
                 TextType::class,
                 [
                     'label' => 'Phone Number:',
+                    'attr' => [
+
+                        'class' => 'form-control'
+                    ],
                     'constraints' => [
                         new NotBlank([
                             'message' => 'Please enter a phone number',
@@ -116,6 +137,10 @@ class RegistrationFormType extends AbstractType
                 TextType::class,
                 [
                     'label' => 'UserName:',
+                    'attr' => [
+
+                        'class' => 'form-control'
+                    ],
                     'constraints' => [
                         new NotBlank(),
                         new Regex([
@@ -132,6 +157,10 @@ class RegistrationFormType extends AbstractType
                 EmailType::class,
                 [
                     'label' => 'E-mail:',
+                    'attr' => [
+                        'placeholder' => 'exemple@exemple',
+                        'class' => 'form-control'
+                    ],
                     'constraints' => [
                         new NotBlank(),
                         new Email(),
@@ -141,6 +170,10 @@ class RegistrationFormType extends AbstractType
             )
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
+                'attr' => [
+
+                    'class' => 'form-control'
+                ],
                 'constraints' => [
                     new IsTrue([
                         'message' => 'You should agree to our terms.',
@@ -151,7 +184,10 @@ class RegistrationFormType extends AbstractType
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+                'attr' => [
+                    'autocomplete' => 'new-password',
+                    'class' => 'form-control'
+                ],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',

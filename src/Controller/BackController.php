@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Product;
 use App\Repository\CartRepository;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
@@ -79,34 +80,40 @@ class BackController extends AbstractController
             $formattedDate = $dateTimeObject->format('Y-m-d ');
             $dateTimeObject = $commande->getInsertedAt();
             $formattedDate = $dateTimeObject->format('Y-m-d');
-            
+
             // Add backslashes to escape double quotes
             $formattedDateWithBackslashes = '\"' . $formattedDate . '\"';
             $earnings = $commande->getTotalO();
-                //dd($formattedDateWithBackslashes);
-              //  \"2023-07-01\"
+            //dd($formattedDateWithBackslashes);
+            //  \"2023-07-01\"
             // Add the date and earnings as a new entry to $historicalEarningsData
             $historicalEarningsData[] = [$formattedDate, $earnings];
         }
 
-         // Construct the JSON string manually
-$jsonHistoricalEarningsData = json_encode($historicalEarningsData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-$jsonHistoricalEarningsData = str_replace('"', '\\"', $jsonHistoricalEarningsData);
+        // Construct the JSON string manually
+        $jsonHistoricalEarningsData = json_encode($historicalEarningsData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        $jsonHistoricalEarningsData = str_replace('"', '\\"', $jsonHistoricalEarningsData);
 
-// Call the Python script and pass the historical earnings data as a command-line argument
-$pythonScriptPath = "C:\\Users\\Admin\\Desktop\\e-Tech-Store\\src\\Controller\\forecast_earnings.py";
-$command = "python3 " . $pythonScriptPath . " \"" . $jsonHistoricalEarningsData . "\"";
+        // Call the Python script and pass the historical earnings data as a command-line argument
+        $pythonScriptPath = "C:\\Users\\Admin\\Desktop\\e-Tech-Store\\src\\Controller\\forecast_earnings.py";
+        $command = "python3 " . $pythonScriptPath . " \"" . $jsonHistoricalEarningsData . "\"";
 
-      
+
         //dd($command);
         // Execute the Python script using Py4Php
         $forecastedEarnings = shell_exec($command);
-        // Debugging: Check the output
-       // dd($forecastedEarnings);
+
         // Convert the JSON response from Python to a PHP array
         $forecastedEarnings = json_decode($forecastedEarnings, true);
+        /*****************************Chart for quantities of products ordered****************************************/
+        $products = $pr->findAll();
+        $productNames = [];
+        $quantitiesOrdered = [];
 
-        
+        foreach ($products as $product) {
+            $productNames[] = $product->getName();
+            $quantitiesOrdered[] = $this->getQuantitiesOrderedForProduct($product, $cr);
+        }
 
 
         return $this->render('back/index.html.twig', [
@@ -115,7 +122,33 @@ $command = "python3 " . $pythonScriptPath . " \"" . $jsonHistoricalEarningsData 
             'earnings' => $Earnings,
             'usersCount' => count($ur->findAll()),
             'forecasedEarnings' => $forecastedEarnings,
+            'productNames' => json_encode($productNames),
+            'quantitiesOrdered' => json_encode($quantitiesOrdered),
 
         ]);
+    }
+    #[Route("/test", name: 'app_test')]
+    public function productQuantityChart(ProductRepository $pr, CartRepository $cr)
+    {
+        $products = $pr->findAll();
+        $productNames = [];
+        $quantitiesOrdered = [];
+
+        foreach ($products as $product) {
+            $productNames[] = $product->getName();
+            $quantitiesOrdered[] = $this->getQuantitiesOrderedForProduct($product, $cr);
+        }
+        dd($productNames, $quantitiesOrdered);
+    }
+    private function getQuantitiesOrderedForProduct(Product $product, CartRepository $cr): int
+    {
+        // Query to get the total quantity ordered for the given product
+        $quantity = 0;
+        $carts = $cr->findBy(['product' => $product, 'status' => true]);
+        foreach ($carts as $cart) {
+            $quantity += $cart->getQuantity();
+        }
+
+        return $quantity;
     }
 }

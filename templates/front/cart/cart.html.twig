@@ -119,14 +119,21 @@
                     {% set total = subtotal+20 %}
                       <p class="mb-2">{{total}} DT</p>
                     </div>
-
-                  
+{% set break = false %}
+                  {% for cart in carts %}
+                    {% if cart.isStatus==true and cart.isEnabled ==false and break == false %}
                     <a href="{{path('app_order_add')}}" class="btn btn-info btn-block btn-lg">
                       <div class="d-flex justify-content-between">
                        
                         <span>Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
                       </div>
                   </a>
+                  {% set break = true %}
+                  {# break #}
+                      {% else %}
+                  {% set break = false %}
+                    {% endif %}
+                  {% endfor %}
 
                   </div>
                 </div>
